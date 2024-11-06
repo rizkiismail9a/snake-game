@@ -3,41 +3,51 @@
 
 using namespace std;
 
-int main () {
+Color backgroundCanvas = {173, 204, 96, 255};
+Color darkGreen = {43, 51, 24, 255};
 
-    const int SCREEN_WIDTH = 800;
-    const int SCREEN_HEIGHT = 600;
-    int ball_x = 100;
-    int ball_y = 100;
-    int ball_speed_x = 5;
-    int ball_speed_y = 5;
-    int ball_radius = 15;
+int cellSize = 30;
+int cellCount = 25;
 
-    cout << "Hello World" << endl;
+class Food
+{
+public:
+    Vector2 position = {5, 6};
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "My first RAYLIB program!");
-    SetTargetFPS(60);
+    void Draw()
+    {
+        DrawRectangle(position.x * cellSize, position.y * cellSize, cellSize, cellSize, darkGreen);
+    }
+};
 
-    while (WindowShouldClose() == false){
-   
-        ball_x += ball_speed_x;
-        ball_y += ball_speed_y;
+int main()
+{
 
-        if(ball_x + ball_radius >= SCREEN_WIDTH || ball_x - ball_radius <= 0)
-        {
-            ball_speed_x *= -1;
-        }
+    cout << "Program berjalan dengan baik" << endl;
+    /**
+     * Suatu game itu terdiri dari dua bagian
+     * Canvas dan game loop
+     */
 
-        if(ball_y + ball_radius >= SCREEN_HEIGHT || ball_y - ball_radius <= 0)
-        {
-            ball_speed_y *= -1;
-        }
-        
+    // Ini untuk buat canvas
+    InitWindow(cellSize * cellCount, cellSize * cellCount, "Snake game");
+    SetTargetFPS(60); // Set frame rate, jika tidak, computer bakal run game secepat yang dia bisa
+
+    Food food;
+
+    // Kita loop di sini
+    while (WindowShouldClose() == false)
+    {
         BeginDrawing();
-            ClearBackground(BLACK);
-            DrawCircle(ball_x,ball_y,ball_radius, WHITE);
+
+        // Warnai background
+        ClearBackground(backgroundCanvas);
+        food.Draw();
+
         EndDrawing();
     }
 
+    // Jangan lupa destroy window yang udah dibuka
     CloseWindow();
+    return 0;
 }
