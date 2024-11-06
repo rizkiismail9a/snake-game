@@ -12,7 +12,7 @@ int cellCount = 25;
 class Food
 {
 public:
-    Vector2 position = {5, 6};
+    Vector2 position;
     Texture2D texture;
 
     Food()
@@ -20,7 +20,7 @@ public:
         Image image = LoadImage("graphic/dessert.png");
         // Setelah gambar didapat, kita perlu mengubahnya menjadi texture agar bisa dirender
         texture = LoadTextureFromImage(image);
-
+        position = GenerateRandomPos();
         // Jangan lupa unload untuk membersikan memori
         UnloadImage(image);
     }
@@ -38,6 +38,15 @@ public:
 
         DrawTexture(texture, position.x * cellSize, position.y * cellSize, WHITE);
     }
+
+    // Kita ingin agar posisi makanan akan selalu acak setiap kali kita membuka snake game untuk pertama kali
+    Vector2 GenerateRandomPos()
+    {
+        float x = GetRandomValue(0, cellCount - 1);
+        float y = GetRandomValue(0, cellCount - 1);
+
+        return Vector2{x, y};
+    };
 };
 
 int main()
