@@ -13,10 +13,30 @@ class Food
 {
 public:
     Vector2 position = {5, 6};
+    Texture2D texture;
+
+    Food()
+    {
+        Image image = LoadImage("graphic/dessert.png");
+        // Setelah gambar didapat, kita perlu mengubahnya menjadi texture agar bisa dirender
+        texture = LoadTextureFromImage(image);
+
+        // Jangan lupa unload untuk membersikan memori
+        UnloadImage(image);
+    }
+
+    // Di C++ fungsi constructor bisa dihancurkan
+    ~Food()
+    {
+        UnloadTexture(texture);
+    }
 
     void Draw()
     {
-        DrawRectangle(position.x * cellSize, position.y * cellSize, cellSize, cellSize, darkGreen);
+        // Kita udah punya gambar, sekarang kita timpa kotak itu dengan gambar burger
+        // DrawRectangle(position.x * cellSize, position.y * cellSize, cellSize, cellSize, darkGreen);
+
+        DrawTexture(texture, position.x * cellSize, position.y * cellSize, WHITE);
     }
 };
 
@@ -33,7 +53,7 @@ int main()
     InitWindow(cellSize * cellCount, cellSize * cellCount, "Snake game");
     SetTargetFPS(60); // Set frame rate, jika tidak, computer bakal run game secepat yang dia bisa
 
-    Food food;
+    Food food = Food();
 
     // Kita loop di sini
     while (WindowShouldClose() == false)
